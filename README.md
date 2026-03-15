@@ -1,25 +1,48 @@
-**Assertions Used**
--Playwright’s built-in assertions were used to verify expected results# ecommerce-automation
--await expect(page.locator('.shopping_cart_badge')).toBeVisible();
+**Assessment One – SQL**
+1. Write a query to get all the records from the table
+SELECT * 
+FROM Customers;
 
-**Framework Used**
--Playwright with JavaScript.
+2. Write a query to get all the records from the table where Country = Germany and City = Berlin
+SELECT *
+FROM Customers
+WHERE Country = 'Germany'
+AND City = 'Berlin';
 
-**Why This Framework**
--Playwright supports multiple browsers
--Has built-in assertions and auto-waiting
--Is fast, and integrates easily with CI/CD pipelines.
+3. Write a query to update CustomerName to “John Smith” and City to “Frankfurt” where CustomerID = 5
+UPDATE Customers
+SET CustomerName = 'John Smith',
+    City = 'Frankfurt'
+WHERE CustomerID = 5;
 
-**Gherkin / Cucumber**
--This project does not use Gherkin or Cucumber. Tests are written using the Playwright test runner.
 
-**Handling Popup Messages**
--await page.locator('button:has-text("Accept")').click();
+4. Write a query to select all records and order the results by Country A–Z
+SELECT *
+FROM Customers
+ORDER BY Country ASC;
 
-**CI/CD Integration**
--CI/CD can be used to automatically run automation tests whenever code changes are pushed to the repository. In this project, GitHub Actions can be used to trigger Playwright tests whenever new code is committed.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Write a query to return all customers with CustomerName starting with “a”
+SELECT *
+FROM Customers
+WHERE CustomerName LIKE 'a%';
+
+
+
+6. How would you comment out scripts in SQL?
+
+ Single-line comment
+Use two dashes --.
+-- This is a single-line comment
+SELECT * FROM Customers;
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+**ASSESSMENT THREE: POSTMAN**
 # Postman API Testing 
 
 ## Overview
@@ -135,9 +158,27 @@ dummyjson-environment.json
 3. Select the environment
 4. Run the requests
 
----
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+**ASSESSMENT FOUR: E-COMMERCE AUTOMATION : Playwrite**
 
-## Author
+**Assertions Used**
+-Playwright’s built-in assertions were used to verify expected results# ecommerce-automation
+-await expect(page.locator('.shopping_cart_badge')).toBeVisible();
 
-API Testing performed by:
-Anathi Mntundini
+**Framework Used**
+-Playwright with JavaScript.
+
+**Why This Framework**
+-Playwright supports multiple browsers
+-Has built-in assertions and auto-waiting
+-Is fast, and integrates easily with CI/CD pipelines.
+
+**Gherkin / Cucumber**
+-This project does not use Gherkin or Cucumber. Tests are written using the Playwright test runner.
+
+**Handling Popup Messages**
+-await page.locator('button:has-text("Accept")').click();
+
+**CI/CD Integration**
+-CI/CD can be used to automatically run automation tests whenever code changes are pushed to the repository. In this project, GitHub Actions can be used to trigger Playwright tests whenever new code is committed.
+
