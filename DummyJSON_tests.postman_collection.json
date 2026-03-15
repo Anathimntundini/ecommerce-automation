@@ -1,0 +1,618 @@
+{
+  "info": {
+    "_postman_id": "4eed37b9-635d-45d4-a983-ad81b13bbd2c",
+    "name": "DummyJSON_tests",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "31678816"
+  },
+  "item": [
+    {
+      "name": "getOneProduct",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Price is greater than zero\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.price).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Category is beauty\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.category).to.eql(\"beauty\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is JSON\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/{{product_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "{{product_id}}"
+          ]
+        },
+        "description": "StartFragment\n\n## Response Documentation\n\n### Endpoint Tested\n\n`GET https://dummyjson.com/products/1`\n\n### Status Code\n\n`200 OK`\n\n### Description\n\nThis endpoint retrieves detailed information about a specific product.  \nThe response returns a JSON object containing product metadata such as identification, pricing, category, stock availability, dimensions, reviews, and images.\n\n---\n\n## Response Structure\n\n### Product Information\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | Integer | Unique identifier of the product |\n| title | String | Name of the product |\n| description | String | Detailed description of the product |\n| category | String | Product category |\n| price | Number | Price of the product |\n| discountPercentage | Number | Discount applied to the product |\n| rating | Number | Average product rating |\n| stock | Integer | Number of products available in inventory |\n| tags | Array | Keywords associated with the product |\n| brand | String | Brand name of the product |\n| sku | String | Stock Keeping Unit used for product tracking |\n| weight | Number | Product weight |\n\n---\n\n## Product Dimensions\n\n| Field | Type | Description |\n| --- | --- | --- |\n| width | Number | Product width |\n| height | Number | Product height |\n| depth | Number | Product depth |\n\n---\n\n## Shipping and Warranty Information\n\n| Field | Type | Description |\n| --- | --- | --- |\n| warrantyInformation | String | Warranty period for the product |\n| shippingInformation | String | Estimated shipping time |\n| availabilityStatus | String | Product availability status |\n\n---\n\n## Customer Reviews\n\nThe response includes an array of customer reviews.\n\n| Field | Type | Description |\n| --- | --- | --- |"
+      },
+      "response": []
+    },
+    {
+      "name": "searchForProduct",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is JSON\", function () {\r",
+              "    pm.response.to.be.json;\r",
+              "});\r",
+              "\r",
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Response has required fields\", function () {\r",
+              "    pm.expect(jsonData).to.have.property(\"products\");\r",
+              "    pm.expect(jsonData).to.have.property(\"total\");\r",
+              "    pm.expect(jsonData).to.have.property(\"skip\");\r",
+              "    pm.expect(jsonData).to.have.property(\"limit\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Products is an array\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Products array is not empty\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.products.length).to.be.above(0);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/search?q={{search_query}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "q",
+              "value": "{{search_query}}"
+            }
+          ]
+        },
+        "description": "StartFragment\n\n### Endpoint\n\nGET {{base_url}}/products/search?q={{search_query}}\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns a JSON object containing a **products array** with products that match the search query. Each product includes details such as id, title, description, category, price, rating, stock, and brand.\n\n### Additional Fields\n\n- **total** – total number of products matching the search query\n    \n- **skip** – number of products skipped (pagination)\n    \n- **limit** – maximum number of products returned\n    \n\n### Observation\n\nThe search endpoint successfully returned products related to the search query. The response also includes pagination fields to control the number of results returned.\n\nEndFragment"
+      },
+      "response": []
+    },
+    {
+      "name": "invalidProdctId",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});\r",
+              "\r",
+              "const jsonData = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Error message returned\", function () {\r",
+              "    pm.expect(jsonData).to.have.property(\"message\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Correct error message returned\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.message).to.include(\"not found\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/{{invalid_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "{{invalid_id}}"
+          ]
+        },
+        "description": "### Scenario: Error Handling – Invalid Product ID\n\nIn this test, the goal is to verify how the API behaves when a **non-existing product ID** is requested.\n\n**The request sent was:**\n\nGET {{base_url}}/products/{{invalid_id}}\n\nStartFragmentAn invalid ID (for example `0` or a very large number) was used to simulate a situation where the requested product does not exist in the database.EndFragment  \n\nStartFragment\n\n### Expected Behaviour\n\nWhen a product ID does not exist, the API should:\n\n- Return a **404 Not Found** status code\n    \n- Provide an **error message explaining the issue**"
+      },
+      "response": []
+    },
+    {
+      "name": "addProduct",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product ID is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.id).to.eql(195);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product ID is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.id).to.eql(195);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains required fields\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response).to.have.property(\"id\");\r",
+              "    pm.expect(response).to.have.property(\"title\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": 195,\n    \"title\": \"BMW Pencil\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products/add",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "add"
+          ]
+        },
+        "description": "### Endpoint\n\nPOST {{base_url}}/products/add\n\n### Description\n\nThis endpoint creates a new product by sending product information in the request body.\n\n### Status Code\n\n201 Created\n\n### Response\n\nThe API returns the created product with a newly generated **id**.\n\nExample response:\n\n``` json\n{\n  \"id\": 195,\n  \"title\": \"BMW Pencil\"\n}\n\n ```\n\n### Fields\n\n| Field | Description |\n| --- | --- |\n| id | Unique identifier assigned to the newly created product |\n| title | Name of the product provided in the request |\n\n### Observation\n\nThe API successfully created the product and assigned a new **product ID (195)**. The response includes only the fields that were provided in the request body."
+      },
+      "response": []
+    },
+    {
+      "name": "updateExistingProduct",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product ID is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product title exists\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.title).to.eql(\"Essence Mascara Lash Princess\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Price field exists\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.price).to.be.a(\"number\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Category is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.category).to.eql(\"beauty\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Images array exists\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.images).to.be.an(\"array\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"price\": 150\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/products/{{product_id}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products",
+            "{{product_id}}"
+          ]
+        },
+        "description": "### Endpoint\n\nGET {{base_url}}/products/{{product_id}}\n\n### Description\n\nThis endpoint retrieves the details of a specific product using its unique product ID.\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns a JSON object containing product information such as id, title, price, rating, stock availability, description, brand, category, and product images.\n\nStartFragment\n\n### Key Fields\n\n| Field | Description |\n| --- | --- |\n| id | Unique identifier of the product |\n| title | Name of the product |\n| price | Price of the product |\n| rating | Average product rating |\n| stock | Number of products available |\n| brand | Product brand |\n| category | Product category |\n| images | List of product image URLs |\n| thumbnail | Product thumbnail image |\n\n### Observation\n\nThe API successfully returned the product details for the specified product ID.\n\nEndFragment"
+      },
+      "response": []
+    },
+    {
+      "name": "LlimitTo1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains products array\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has required fields\", function () {\r",
+              "    const product = pm.response.json().products[0];\r",
+              "    pm.expect(product).to.have.property(\"id\");\r",
+              "    pm.expect(product).to.have.property(\"title\");\r",
+              "    pm.expect(product).to.have.property(\"price\");\r",
+              "    pm.expect(product).to.have.property(\"category\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products?limit=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "StartFragment\n\n### Endpoint\n\nGET {{base_url}}/products?limit=1\n\n### Description\n\nThis endpoint retrieves products with a specified limit. The **limit parameter** controls how many products are returned in the response.\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns a JSON object containing a **products array** with one product because the limit was set to **1**. Each product contains details such as id, title, description, category, price, rating, stock, brand, reviews, and images.\n\n### Additional Fields\n\n- **total** – total number of products available in the database (194)\n    \n- **skip** – number of products skipped (pagination)\n    \n- **limit** – number of products returned in the response\n    \n\n### Observation\n\nThe API correctly returned **one product** because the limit parameter was set to **1**.\n\nEndFragment"
+      },
+      "response": []
+    },
+    {
+      "name": "LimitTo0",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains products array\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has required fields\", function () {\r",
+              "    const product = pm.response.json().products[0];\r",
+              "    pm.expect(product).to.have.property(\"id\");\r",
+              "    pm.expect(product).to.have.property(\"title\");\r",
+              "    pm.expect(product).to.have.property(\"price\");\r",
+              "    pm.expect(product).to.have.property(\"category\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products?limit=0",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "0"
+            }
+          ]
+        },
+        "description": "### Endpoint\n\nGET {{base_url}}/products?limit=0\n\n### Description\n\nThis endpoint retrieves products with a specified limit. The **limit parameter** controls how many products are returned in the response.\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns a JSON object containing a **products array** with one product because the limit was set to 0. Each product contains details such as id, title, description, category, price, rating, stock, brand, reviews, and images.\n\n### Additional Fields\n\n- **total** – total number of products available in the database (194)\n    \n- **skip** – number of products skipped (pagination)\n    \n- **limit** – number of products returned in the response\n    \n\n### Observation\n\nThe API correctly returned **all product** because the limit parameter was set to 0."
+      },
+      "response": []
+    },
+    {
+      "name": "ResponseTimeWithoutDelay",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response time is less than 2000ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains products array\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has required fields\", function () {\r",
+              "    const product = pm.response.json().products[0];\r",
+              "    pm.expect(product).to.have.property(\"id\");\r",
+              "    pm.expect(product).to.have.property(\"title\");\r",
+              "    pm.expect(product).to.have.property(\"price\");\r",
+              "    pm.expect(product).to.have.property(\"category\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ]
+        },
+        "description": "StartFragmentThe response time for the first request was approximately **1.11 seconds**.\n\nwhen comparing with the call with a delay this call runs faster"
+      },
+      "response": []
+    },
+    {
+      "name": "responseTimeWithDelay",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains products array\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.products).to.be.an(\"array\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Product has required fields\", function () {\r",
+              "    const product = pm.response.json().products[0];\r",
+              "    pm.expect(product).to.have.property(\"id\");\r",
+              "    pm.expect(product).to.have.property(\"title\");\r",
+              "    pm.expect(product).to.have.property(\"price\");\r",
+              "    pm.expect(product).to.have.property(\"category\");\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products?delay={{time}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "delay",
+              "value": "{{time}}"
+            }
+          ]
+        },
+        "description": "This request with the delay parameter took longer to respond than the request without delay.\n\nThe response time increased by approximately **2 seconds**, which matches the **delay=2000 milliseconds** parameter, confirming that the delay parameter works as expected.EndFragment"
+      },
+      "response": []
+    },
+    {
+      "name": "Authentication",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Access token is present\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.accessToken).to.exist;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Refresh token is present\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.refreshToken).to.exist;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Username is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.username).to.eql(\"emilys\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Email is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.email).to.eql(\"emily.johnson@x.dummyjson.com\");\r",
+              "});\r",
+              "\r",
+              "pm.test(\"User ID is correct\", function () {\r",
+              "    const response = pm.response.json();\r",
+              "    pm.expect(response.id).to.eql(1);\r",
+              "});\r",
+              "\r",
+              "let response = pm.response.json();\r",
+              "pm.environment.set(\"access_token\", response.accessToken);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"emilys\",\n  \"password\": \"emilyspass\",\n  \"expiresInMins\": 30\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "### Endpoint\n\nPOST {{base_url}}/auth/login\n\n### Description\n\nThis endpoint authenticates a user using valid login credentials (username and password).\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns user information along with authentication tokens used to access protected endpoints.\n\nExample response fields:\n\n| Field | Description |\n| --- | --- |\n| accessToken | Token used to authenticate API requests |\n| refreshToken | Token used to generate a new access token |\n| id | Unique user identifier |\n| username | Username of the authenticated user |\n| email | User's email address |\n| firstName | User's first name |\n| lastName | User's last name |\n| gender | User's gender |\n| image | Profile image of the user |\n\n### Observation\n\nThe API successfully authenticated the user and returned an **access token and refresh token**, which can be used for authorized requests."
+      },
+      "response": []
+    },
+    {
+      "name": "AunthenticatedCustomer",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer YOUR_ACCESS_TOKEN"
+          }
+        ],
+        "url": {
+          "raw": "https://dummyjson.com/auth/me",
+          "protocol": "https",
+          "host": [
+            "dummyjson",
+            "com"
+          ],
+          "path": [
+            "auth",
+            "me"
+          ]
+        },
+        "description": "### Endpoint\n\nGET {{base_url}}/auth/me\n\n### Description\n\nThis endpoint retrieves information about the **currently authenticated user** using a valid access token.\n\n### Status Code\n\n200 OK\n\n### Response\n\nThe API returns a JSON object containing detailed information about the authenticated user.\n\n### Key Fields\n\n| Field | Description |\n| --- | --- |\n| id | Unique identifier of the user |\n| firstName | User's first name |\n| lastName | User's last name |\n| age | User's age |\n| gender | User's gender |\n| email | User's email address |\n| username | User's login username |\n| phone | User's phone number |\n| birthDate | User's date of birth |\n| image | User profile image |\n\n### Additional Information\n\nThe response also includes:\n\n- **Address information**\n    \n- **Bank details**\n    \n- **Company information**\n    \n- **Hair and physical attributes**\n    \n- **Crypto wallet details**\n    \n- **User role**\n    \n\n### Observation\n\nThe API successfully returned detailed profile information for the authenticated user when a valid access token was provided."
+      },
+      "response": []
+    }
+  ]
+}
